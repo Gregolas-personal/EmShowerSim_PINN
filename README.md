@@ -46,6 +46,33 @@ For this project lets simulate a sampling calorimeter following a simplified ver
 
 ![EM Shower Calorimeter](docs/calorimeter.svg)
 
+### Docker build
+
+The repository includes a Docker setup that builds Geant4 11.3.2 with HDF5,
+GDML, Qt, OpenGL, and the Geant4 data libraries enabled. This avoids relying on
+a local Geant4 installation.
+
+Build the image from the repository root:
+
+```sh
+docker build -t pinn-calorimeter-geant4 .
+```
+
+Run the default macro:
+
+```sh
+mkdir -p output
+docker run --rm -v "$PWD/output:/output" pinn-calorimeter-geant4
+```
+
+The simulation writes `shower_data.h5` to `./output` on the host.
+
+To run a shell in the configured environment:
+
+```sh
+docker run --rm -it pinn-calorimeter-geant4 "source /opt/geant4/bin/geant4.sh && bash"
+```
+
 
 
 ## *References*

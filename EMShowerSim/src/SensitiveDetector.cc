@@ -14,7 +14,7 @@ G4bool SensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory*) {
     G4double edep = step->GetTotalEnergyDeposit();
     if (edep == 0.) return false;
 
-    auto* touch = step->GetPreStepPoint()->GetTouchableHandle();
+    auto touch = step->GetPreStepPoint()->GetTouchableHandle();
     G4int layer = touch->GetReplicaNumber(0);
     G4ThreeVector pos = step->GetPreStepPoint()->GetPosition();
 

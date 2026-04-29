@@ -1,0 +1,14 @@
+.git
+.DS_Store
+
+build/
+EMShowerSim/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+*.o
+*.so
+*.dylib
+*.h5
