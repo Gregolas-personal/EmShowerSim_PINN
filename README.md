@@ -1,7 +1,9 @@
-***Objective of this project***
+## *Objective of this project*
 The goal is to demonstrate that a physics-constrained surrogate model can accurately reproduce full Geant4 shower shapes at a fraction of the computational cost, enabling real-time calorimeter reconstruction in future collider trigger systems. For this project a Physics-Informed Neural Network (PINN) is trained on Geant4 generated events reproducing the calorimeter response. The PINN uses physics considerations as constraints for the loss function.
 
-***Physics Background***
+--- 
+
+## *Physics Background*
 
 An electromagnetic shower develops when a high-energy photon or electron enters a dense medium. Two competing processes alternate recursively until the particle energies fall below a critical threshold $E_c$:
 
@@ -10,7 +12,7 @@ An electromagnetic shower develops when a high-energy photon or electron enters 
 
 The shower grows exponentially in the first few radiation lengths $X_0$, then attenuates as individual particles dip below $E_c$ and lose enrgy mainly by ionisation.
 
-**Longitudinal profile**
+# Longitudinal profile
 
 The energy deposited per unit depth $t = \frac{x}{X_0}$ follows a Gamma distribution with Longo Parametrisation [[1, 2]](#references):
 
@@ -26,7 +28,7 @@ $$
 
 here the factor $-\frac{1}{2}$ is for electrons.
 
-**Transverse profile**
+# Transverse profile
 
 Lateral spread is governed by multiple Coulomb scattering and parametrised by the Molière radius $R_M = 21 MeV \cdot \frac{X_0}{E_c}$. About 90\% of the shower energy lies within one Molière radius. The radial profile is well-described by a two component function:
 
@@ -38,7 +40,7 @@ with a narrow core radius $R_c$ and a wide tail radius $R_t$, both of tthe order
 
 This analytical profiles will serve as the physics constraints for the PINN loss function. 
 
-***Geant4 Simulation***
+## *Geant4 Simulation*
 
 For this project lets simulate a sampling calorimeter following a simplified version of ATLAS LAr calorimeter geometry. Our sampling calorimeter is built alternating layers of lead absorber and liquid argon (LAr) active medium and we will start with 20 layers.
 
@@ -46,7 +48,7 @@ For this project lets simulate a sampling calorimeter following a simplified ver
 
 
 
-***References***
+## *References*
 
 [1] E. Longo and I. Sestili, *Monte Carlo Calculation of Photon-Initiated 
 Electromagnetic Showers in Lead Glass*, Nucl. Instrum. Methods **128**, 283 (1975).  
