@@ -29,4 +29,4 @@ RUN mkdir -p /output
 
 WORKDIR /workspace/EMShowerSim/build
 ENTRYPOINT ["/bin/bash", "-lc"]
-CMD ["./EMShower ../run.mac && cp shower_data*.h5 /output/"]
+CMD ["./EMShower ../run.mac && cp shower_*.h5 /output/"]
