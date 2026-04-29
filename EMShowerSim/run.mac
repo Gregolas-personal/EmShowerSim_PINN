@@ -4,12 +4,12 @@
 
 /emshower/outputFile shower_10GeV.h5
 /gun/energy 10 GeV
-/run/beamOn 5000
+/run/beamOn 500
 
 /emshower/outputFile shower_20GeV.h5
 /gun/energy 20 GeV
-/run/beamOn 5000
+/run/beamOn 500
 
 /emshower/outputFile shower_50GeV.h5
 /gun/energy 50 GeV
-/run/beamOn 5000
+/run/beamOn 500

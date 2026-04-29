@@ -19,7 +19,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
     auto* worldLV = new G4LogicalVolume(worldS, LAr, "World");
     auto* worldPV = new G4PVPlacement(0,G4ThreeVector(), worldLV, "World", nullptr, false, 0);
 
-    const G4int nLayers = 20;
+    const G4int nLayers = 50;
     const G4double absTh = 2.0*mm;
     const G4double actTh = 4.0*mm;
     const G4double layerTh = absTh + actTh;
