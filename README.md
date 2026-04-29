@@ -1,9 +1,7 @@
-## *Objective of this project*
+# *Objective of this project*
 The goal is to demonstrate that a physics-constrained surrogate model can accurately reproduce full Geant4 shower shapes at a fraction of the computational cost, enabling real-time calorimeter reconstruction in future collider trigger systems. For this project a Physics-Informed Neural Network (PINN) is trained on Geant4 generated events reproducing the calorimeter response. The PINN uses physics considerations as constraints for the loss function.
 
---- 
-
-## *Physics Background*
+# *Physics Background*
 
 An electromagnetic shower develops when a high-energy photon or electron enters a dense medium. Two competing processes alternate recursively until the particle energies fall below a critical threshold $E_c$:
 
@@ -12,7 +10,7 @@ An electromagnetic shower develops when a high-energy photon or electron enters 
 
 The shower grows exponentially in the first few radiation lengths $X_0$, then attenuates as individual particles dip below $E_c$ and lose enrgy mainly by ionisation.
 
-# Longitudinal profile
+## Longitudinal profile
 
 The energy deposited per unit depth $t = \frac{x}{X_0}$ follows a Gamma distribution with Longo Parametrisation [[1, 2]](#references):
 
@@ -28,7 +26,7 @@ $$
 
 here the factor $-\frac{1}{2}$ is for electrons.
 
-# Transverse profile
+## Transverse profile
 
 Lateral spread is governed by multiple Coulomb scattering and parametrised by the Molière radius $R_M = 21 MeV \cdot \frac{X_0}{E_c}$. About 90\% of the shower energy lies within one Molière radius. The radial profile is well-described by a two component function:
 
@@ -40,17 +38,18 @@ with a narrow core radius $R_c$ and a wide tail radius $R_t$, both of tthe order
 
 This analytical profiles will serve as the physics constraints for the PINN loss function. 
 
-## *Geant4 Simulation*
+# *Geant4 Simulation*
 
 For this project lets simulate a sampling calorimeter following a simplified version of ATLAS LAr calorimeter geometry. Our sampling calorimeter is built alternating layers of lead absorber and liquid argon (LAr) active medium and we will start with 20 layers.
 
 ![EM Shower Calorimeter](docs/calorimeter.svg)
 
-### Docker build
+# Docker build
 
-The repository includes a Docker setup that builds Geant4 11.3.2 with HDF5,
-GDML, Qt, OpenGL, and the Geant4 data libraries enabled. This avoids relying on
-a local Geant4 installation.
+The repository includes a Docker setup that installs the prebuilt conda-forge
+Geant4 11.3.2 package, checks that it has HDF5 support, and then builds this
+simulation against it. This avoids relying on a local Geant4 installation and
+is much faster than compiling Geant4 from source.
 
 Build the image from the repository root:
 
@@ -58,24 +57,30 @@ Build the image from the repository root:
 docker build -t pinn-calorimeter-geant4 .
 ```
 
+The image defaults to `linux/amd64` because conda-forge provides Geant4 for
+that Linux platform. On Apple Silicon Docker will run it through emulation,
+which is still much faster than compiling Geant4 locally from source.
+
 Run the default macro:
 
 ```sh
 mkdir -p output
-docker run --rm -v "$PWD/output:/output" pinn-calorimeter-geant4
+docker run --rm --platform linux/amd64 -v "$PWD/output:/output" pinn-calorimeter-geant4
 ```
 
-The simulation writes `shower_data.h5` to `./output` on the host.
+With Geant4 MT and HDF5, ntuple merging is not available, so Geant4 writes one
+HDF5 file per worker thread, for example `shower_data_t0.h5`. The Docker command
+copies all `shower_data*.h5` files to `./output` on the host.
 
 To run a shell in the configured environment:
 
 ```sh
-docker run --rm -it pinn-calorimeter-geant4 "source /opt/geant4/bin/geant4.sh && bash"
+docker run --rm -it --platform linux/amd64 pinn-calorimeter-geant4 bash
 ```
 
 
 
-## *References*
+# *References*
 
 [1] E. Longo and I. Sestili, *Monte Carlo Calculation of Photon-Initiated 
 Electromagnetic Showers in Lead Glass*, Nucl. Instrum. Methods **128**, 283 (1975).  

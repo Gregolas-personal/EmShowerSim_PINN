@@ -6,7 +6,7 @@ class G4Run;
 
 class RunAction : public G4UserRunAction {
 public:
-    RunAction() = default;
+    RunAction();
     ~RunAction() override = default;
 
     void BeginOfRunAction(const G4Run*) override;

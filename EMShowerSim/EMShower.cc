@@ -1,7 +1,6 @@
+#include "ActionInitialization.hh"
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
-#include "PrimaryGeneratorAction.hh"
-#include "RunAction.hh"
 
 #include "G4RunManagerFactory.hh"
 #include "G4UImanager.hh"
@@ -13,8 +12,7 @@ int main(int argc, char** argv) {
 
     runManager->SetUserInitialization(new DetectorConstruction());
     runManager->SetUserInitialization(new PhysicsList());
-    runManager->SetUserAction(new PrimaryGeneratorAction());
-    runManager->SetUserAction(new RunAction());
+    runManager->SetUserInitialization(new ActionInitialization()); // needed because MT, all related to event must be in here while detector, physics list and vis can be in main
 
     runManager->Initialize();
 

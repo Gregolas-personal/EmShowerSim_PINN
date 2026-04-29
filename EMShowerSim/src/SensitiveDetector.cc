@@ -2,7 +2,7 @@
 
 #include "G4Step.hh"
 #include "G4TouchableHistory.hh"
-#include "G4AnalysisManager.hh"
+#include "G4Hdf5AnalysisManager.hh"
 #include "G4EventManager.hh"
 #include "G4Event.hh"
 #include "G4SystemOfUnits.hh"
@@ -26,7 +26,7 @@ void SensitiveDetector::EndOfEvent(G4HCofThisEvent*) {
     G4int eventID =
         G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID();
 
-    auto* am = G4AnalysisManager::Instance();
+    auto* am = G4Hdf5AnalysisManager::Instance();
     for (const auto& h : fHits) {
         am->FillNtupleIColumn(0, eventID);
         am->FillNtupleIColumn(1, h.layerID);

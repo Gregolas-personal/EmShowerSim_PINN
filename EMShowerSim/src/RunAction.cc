@@ -1,11 +1,11 @@
 #include "RunAction.hh"
 
-#include "G4AnalysisManager.hh"
+#include "G4Hdf5AnalysisManager.hh"
 #include "G4Run.hh"
 
-void RunAction::BeginOfRunAction(const G4Run*) {
-    auto* am = G4AnalysisManager::Instance();
-    am->OpenFile("shower_data.h5");
+RunAction::RunAction() {
+    auto* am = G4Hdf5AnalysisManager::Instance();
+    am->SetVerboseLevel(1);
     am->CreateNtuple("hits", "EM Shower Hits");
     am->CreateNtupleIColumn("event");
     am->CreateNtupleIColumn("layer");
@@ -15,7 +15,11 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     am->FinishNtuple();
 }
 
+void RunAction::BeginOfRunAction(const G4Run*) {
+    G4Hdf5AnalysisManager::Instance()->OpenFile("shower_data.h5");
+}
+
 void RunAction::EndOfRunAction(const G4Run*) {
-    G4AnalysisManager::Instance()->Write();
-    G4AnalysisManager::Instance()->CloseFile();
+    G4Hdf5AnalysisManager::Instance()->Write();
+    G4Hdf5AnalysisManager::Instance()->CloseFile();
 }
