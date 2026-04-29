@@ -2,6 +2,7 @@
 
 #include "G4Hdf5AnalysisManager.hh"
 #include "G4Run.hh"
+#include "G4RunManager.hh"
 
 RunAction::RunAction() {
     auto* am = G4Hdf5AnalysisManager::Instance();
@@ -16,6 +17,10 @@ RunAction::RunAction() {
 }
 
 void RunAction::BeginOfRunAction(const G4Run*) {
+    if (isMaster) {
+        G4RunManager::GetRunManager()->SetPrintProgress(100);
+    }
+
     G4Hdf5AnalysisManager::Instance()->OpenFile("shower_data.h5");
 }
 
